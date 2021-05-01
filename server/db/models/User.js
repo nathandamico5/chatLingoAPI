@@ -61,7 +61,7 @@ User.findByToken = async function (token) {
   }
 };
 
-User.beforeSave(async (user) => {
+User.beforeCreate(async (user) => {
   user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
 });
 

@@ -11,7 +11,7 @@ const requireToken = async (req, res, next) => {
   }
 };
 
-// POST /api/auth/login
+// POST /auth/login
 router.post("/login", async (req, res, next) => {
   try {
     res.send({ token: await User.authenticate(req.body) });
@@ -20,7 +20,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-// POST /api/auth/signup
+// POST /auth/signup
 router.post("/signup", async (req, res, next) => {
   try {
     const { username, password, language } = req.body;
@@ -35,9 +35,21 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
-// GET /api/auth
+// GET /auth
 router.get("/", requireToken, async (req, res, next) => {
   try {
+    res.send(req.user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// PUT /auth
+router.put("/", requireToken, async (req, res, next) => {
+  try {
+    const { language } = req.body;
+    req.user.language = language;
+    await req.user.save();
     res.send(req.user);
   } catch (error) {
     next(error);
