@@ -5,24 +5,29 @@ const seed = async () => {
     await db.sync({ force: true });
 
     // Seed Users
-    const test = await User.create({
-      username: "test",
+    await User.create({
+      username: "nathan",
       password: "123",
+      language: "en",
     });
-    const user = await User.create({
+    await User.create({
       username: "user",
       password: "123",
+      langauge: "es",
+    });
+    await User.create({
+      username: "Ronny",
+      password: "123",
+      language: "zh",
     });
 
     // Seed Messages
-    await user.createMessage({
-      content: "hello",
-    });
-    await test.createMessage({
-      content: "how are you?",
-    });
-
-    // // Assign Messages
+    // await nathan.createMessage({
+    //   content: "hello",
+    // });
+    // await james.createMessage({
+    //   content: "como estas?",
+    // });
   } catch (err) {
     console.log(err);
   }

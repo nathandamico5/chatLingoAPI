@@ -21,6 +21,10 @@ const User = db.define("user", {
       notEmpty: true,
     },
   },
+  language: {
+    type: Sequelize.STRING,
+    defaultValue: "en",
+  },
 });
 
 User.prototype.correctPassword = function (candidatePwd) {
@@ -28,6 +32,7 @@ User.prototype.correctPassword = function (candidatePwd) {
 };
 
 User.prototype.generateToken = function () {
+  console.log(this.id);
   return jwt.sign({ id: this.id }, process.env.JWT);
 };
 

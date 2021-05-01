@@ -1,5 +1,6 @@
 const router = require("express").Router();
-const { Message } = require("../db/index");
+const { Message, User } = require("../db/index");
+const requireToken = require("./authMiddleware");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -10,10 +11,10 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", requireToken, async (req, res, next) => {
   try {
     const content = req.body.message;
-    const message = await Message.create({
+    const message = await req.user.createMessage({
       content,
     });
     res.send(message);

@@ -5,10 +5,17 @@ const { db } = require("./db");
 
 // Initialize App
 const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+const PORT = process.env.PORT || 3000;
+db.sync().then(() => {
+  server.listen(PORT, () => {
+    console.log(`Server Listening at http://localhost:${PORT}`);
+  });
+});
 
 // Middleware
 app.use(morgan("dev"));
-
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
@@ -33,15 +40,17 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.message || "Internal server error.");
 });
 
-// Start Server
-const PORT = process.env.PORT || 3000;
-const server = db.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`App Listening at http://localhost:${PORT}`);
+io.on("connection", function (socket) {
+  console.log(socket.id, "connected to the WebSocket");
+
+  // socket.on("disconnect", () => {
+  //   console.log("Client disconnected");
+  // });
+
+  socket.on("new-message", function (msg) {
+    console.log("Received a new message");
+    io.emit("new-message", msg);
   });
 });
-
-const io = require("socket.io")(server);
-require("./socket")(io);
 
 module.exports = app;
