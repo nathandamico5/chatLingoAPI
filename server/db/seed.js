@@ -11,9 +11,9 @@ const seed = async () => {
       language: "es",
     });
     await User.create({
-      username: "user",
-      password: "123",
-      langauge: "fr",
+      username: "ambar",
+      password: "12345",
+      langauge: "en",
     });
     await User.create({
       username: "Ronny",
