@@ -5,15 +5,15 @@ const seed = async () => {
     await db.sync({ force: true });
 
     // Seed Users
-    await User.create({
+    const nathan = await User.create({
       username: "nathan",
       password: "123",
-      language: "en",
+      language: "es",
     });
     await User.create({
       username: "user",
       password: "123",
-      langauge: "es",
+      langauge: "fr",
     });
     await User.create({
       username: "Ronny",
@@ -22,12 +22,9 @@ const seed = async () => {
     });
 
     // Seed Messages
-    // await nathan.createMessage({
-    //   content: "hello",
-    // });
-    // await james.createMessage({
-    //   content: "como estas?",
-    // });
+    await nathan.createMessage({
+      content: "hello",
+    });
   } catch (err) {
     console.log(err);
   }

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Message, User } = require("../db/index");
+const { Message } = require("../db/index");
 const requireToken = require("./authMiddleware");
 
 router.get("/", async (req, res, next) => {
