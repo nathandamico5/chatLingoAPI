@@ -20,10 +20,16 @@ const seed = async () => {
       password: "123",
       language: "zh",
     });
+    await User.create({
+      username: "James",
+      password: "123",
+      language: "ar",
+    });
 
     // Seed Messages
     await nathan.createMessage({
       content: "hello",
+      toID: 0,
     });
   } catch (err) {
     console.log(err);
