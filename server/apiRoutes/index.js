@@ -11,6 +11,7 @@ router.get("/", (req, res, next) => {
 
 router.use("/auth", require("./authRoutes"));
 router.use("/messages", require("./messagesRoutes"));
+router.use("/contacts", require("./contactsRoutes"));
 
 // 404 Error Handling
 router.use((req, res, next) => {

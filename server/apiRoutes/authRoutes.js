@@ -1,15 +1,6 @@
 const router = require("express").Router();
 const { User } = require("../db/index");
-
-// Require Token Auth Middleware
-const requireToken = async (req, res, next) => {
-  try {
-    req.user = await User.findByToken(req.headers.authorization);
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
+const requireToken = require("./authMiddleware");
 
 // POST /auth/login
 router.post("/login", async (req, res, next) => {

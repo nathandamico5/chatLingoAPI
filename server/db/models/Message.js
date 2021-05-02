@@ -9,6 +9,10 @@ const Message = db.define("message", {
       notEmpty: true,
     },
   },
+  toID: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
 });
 
 module.exports = Message;
