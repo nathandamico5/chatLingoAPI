@@ -40,12 +40,26 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.message || "Internal server error.");
 });
 
-io.on("connection", function (socket) {
-  console.log(socket.id, "connected to the WebSocket");
+// Sockets
+io.use((socket, next) => {
+  const username = socket.handshake.auth.username;
+  const userID = socket.handshake.auth.userID;
 
-  // socket.on("disconnect", () => {
-  //   console.log("Client disconnected");
-  // });
+  if (!username) {
+    return next(new Error("invalid username"));
+  }
+
+  socket.userID = userID;
+  socket.username = username;
+  next();
+});
+
+io.on("connection", function (socket) {
+  console.log(
+    socket.username,
+    "connected to the WebSocket with socket ID:",
+    socket.id
+  );
 
   socket.on("new-message", function (msg) {
     console.log("Received a new message");
